@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer } from "react";
 
 const CountContext = React.createContext<any>(undefined);
 
@@ -8,23 +8,32 @@ function useCount() {
   if (!context) {
     throw new Error(`useCount must be used within a CountProvider`);
   }
+  const [state, dispatch] = context;
 
-  const [count, setCount] = context;
-
-  const increment = () => setCount(count + 1);
-  const decrement = () => setCount(count - 1);
+  const increment = () => dispatch({ type: "INCREMENT" });
+  const decrement = () => dispatch({ type: "DECREMENT" });
 
   return {
-    count,
-    setCount, // Access to lower level API
+    state,
+    dispatch, // Access to lower level API
     increment,
     decrement,
   };
 }
 
+function countReducer(state: any, action: any) {
+  switch (action.type) {
+    case "INCREMENT":
+      return { count: state.count + 1 };
+
+    case "DECREMENT":
+      return { count: state.count - 1 };
+  }
+}
+
 function CountProvider(props: any) {
-  const [count, setCount] = React.useState(0);
-  const value = React.useMemo(() => [count, setCount], [count]);
+  const [state, dispatch] = useReducer(countReducer, { count: 0 });
+  const value = React.useMemo(() => [state, dispatch], [state]);
   return <CountContext.Provider value={value} {...props} />;
 }
 
