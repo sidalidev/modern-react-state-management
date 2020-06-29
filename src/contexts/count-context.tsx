@@ -51,4 +51,14 @@ function useCountDispatch() {
   return context;
 }
 
-export { CountProvider, useCountState, useCountDispatch };
+function useCount() {
+  const dispatch = useCountDispatch();
+  const state = useCountState();
+
+  const increment = () => dispatch({ type: "INCREMENT" });
+  const decrement = () => dispatch({ type: "DECREMENT" });
+
+  return { state, dispatch, increment, decrement };
+}
+
+export { CountProvider, useCountState, useCountDispatch, useCount };

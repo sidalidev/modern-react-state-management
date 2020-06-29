@@ -1,10 +1,10 @@
 import React from "react";
-import { useCountState } from "../contexts/count-context";
+import { useCount } from "../contexts/count-context";
 
 const CountDisplay = () => {
-  const { count } = useCountState();
+  const { state } = useCount();
 
-  return <h3>{count}</h3>;
+  return <h3>{state.count}</h3>;
 };
 
 export default CountDisplay;
