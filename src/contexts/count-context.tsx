@@ -8,7 +8,18 @@ function useCount() {
   if (!context) {
     throw new Error(`useCount must be used within a CountProvider`);
   }
-  return context;
+
+  const [count, setCount] = context;
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
+
+  return {
+    count,
+    setCount, // Access to lower level API
+    increment,
+    decrement,
+  };
 }
 
 function CountProvider(props: any) {

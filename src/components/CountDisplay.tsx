@@ -2,7 +2,7 @@ import React from "react";
 import { useCount } from "../contexts/count-context";
 
 const Counter = () => {
-  const [count] = useCount();
+  const { count } = useCount();
 
   return <h3>{count}</h3>;
 };

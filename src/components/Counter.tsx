@@ -3,7 +3,7 @@ import "./Counter.css";
 import { useCount } from "../contexts/count-context";
 
 const Counter = () => {
-  const [count, setCount] = useCount();
+  const { count, setCount } = useCount();
 
   return (
     <div className="Counter">
