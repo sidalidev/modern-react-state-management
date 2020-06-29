@@ -1,17 +1,17 @@
 import React from "react";
+import { RecoilRoot } from "recoil";
 import "./App.css";
 import CountDisplay from "./components/CountDisplay";
 import Counter from "./components/Counter";
-import { CountProvider } from "./contexts/count-context";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <CountProvider>
+        <RecoilRoot>
           <CountDisplay />
           <Counter />
-        </CountProvider>
+        </RecoilRoot>
       </header>
     </div>
   );

@@ -1,8 +1,9 @@
 import React from "react";
-import { useCountState } from "../contexts/count-context";
+import { useRecoilState } from "recoil";
+import { countState } from "../contexts/count-context";
 
 const CountDisplay = () => {
-  const { count } = useCountState();
+  const [count] = useRecoilState(countState);
 
   return <h3>{count}</h3>;
 };
