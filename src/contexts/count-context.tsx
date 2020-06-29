@@ -1,40 +1,54 @@
-import React, { useReducer } from "react";
+import React from "react";
 
-const CountContext = React.createContext<any>(undefined);
+type Action = { type: "INCREMENT" } | { type: "DECREMENT" };
+type Dispatch = (action: Action) => void;
+type State = { count: number };
+type CountProviderProps = { children: React.ReactNode };
 
-// Bonus: more simple less boilerplate for consumers with Hooks
-function useCount() {
-  const context = React.useContext(CountContext);
-  if (!context) {
-    throw new Error(`useCount must be used within a CountProvider`);
-  }
-  const [state, dispatch] = context;
+const CountStateContext = React.createContext<State | undefined>(undefined);
+const CountDispatchContext = React.createContext<Dispatch | undefined>(
+  undefined
+);
 
-  const increment = () => dispatch({ type: "INCREMENT" });
-  const decrement = () => dispatch({ type: "DECREMENT" });
-
-  return {
-    state,
-    dispatch, // Access to lower level API
-    increment,
-    decrement,
-  };
-}
-
-function countReducer(state: any, action: any) {
+function countReducer(state: State, action: Action) {
   switch (action.type) {
-    case "INCREMENT":
+    case "INCREMENT": {
       return { count: state.count + 1 };
-
-    case "DECREMENT":
+    }
+    case "DECREMENT": {
       return { count: state.count - 1 };
+    }
+    default: {
+      throw new Error(`Unhandled action`);
+    }
   }
 }
 
-function CountProvider(props: any) {
-  const [state, dispatch] = useReducer(countReducer, { count: 0 });
-  const value = React.useMemo(() => [state, dispatch], [state]);
-  return <CountContext.Provider value={value} {...props} />;
+function CountProvider({ children }: CountProviderProps) {
+  const [state, dispatch] = React.useReducer(countReducer, { count: 0 });
+  return (
+    <CountStateContext.Provider value={state}>
+      <CountDispatchContext.Provider value={dispatch}>
+        {children}
+      </CountDispatchContext.Provider>
+    </CountStateContext.Provider>
+  );
 }
 
-export { useCount, CountProvider };
+function useCountState() {
+  const context = React.useContext(CountStateContext);
+  if (context === undefined) {
+    throw new Error("useCountState must be used within a CountProvider");
+  }
+  return context;
+}
+
+function useCountDispatch() {
+  const context = React.useContext(CountDispatchContext);
+  if (context === undefined) {
+    throw new Error("useCountDispatch must be used within a CountProvider");
+  }
+  return context;
+}
+
+export { CountProvider, useCountState, useCountDispatch };

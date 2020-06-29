@@ -1,14 +1,14 @@
 import React from "react";
 import "./Counter.css";
-import { useCount } from "../contexts/count-context";
+import { useCountDispatch } from "../contexts/count-context";
 
 const Counter = () => {
-  const { increment, decrement } = useCount();
+  const dispatch = useCountDispatch();
 
   return (
     <div className="Counter">
-      <button onClick={increment}>-</button>
-      <button onClick={decrement}>+</button>
+      <button onClick={() => dispatch({ type: "DECREMENT" })}>-</button>
+      <button onClick={() => dispatch({ type: "INCREMENT" })}>+</button>
     </div>
   );
 };
