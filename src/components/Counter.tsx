@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Counter.css";
 
-const Counter = () => {
-  const [count, setCount] = useState(0);
+type Props = {
+  onDecrementClick: () => void;
+  onIncrementClick: () => void;
+};
 
+const Counter = ({ onDecrementClick, onIncrementClick }: Props) => {
   return (
     <div className="Counter">
-      <h3>{count}</h3>
-      <div>
-        <button onClick={() => setCount(count - 1)}>-</button>
-        <button onClick={() => setCount(count + 1)}>+</button>
-      </div>
+      <button onClick={onDecrementClick}>-</button>
+      <button onClick={onIncrementClick}>+</button>
     </div>
   );
 };
