@@ -1,10 +1,9 @@
 import React from "react";
+import { useCount } from "../contexts/count-context";
 
-type Props = {
-  count: number;
-};
+const Counter = () => {
+  const [count] = useCount();
 
-const Counter = ({ count = 0 }: Props) => {
   return <h3>{count}</h3>;
 };
 

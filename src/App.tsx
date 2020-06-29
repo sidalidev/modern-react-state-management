@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import CountDisplay from "./components/CountDisplay";
 import Counter from "./components/Counter";
+import { CountProvider } from "./contexts/count-context";
 
 function App() {
-  // Lifting State Up
-  const [count, setCount] = useState(0);
-
   return (
     <div className="App">
       <header className="App-header">
-        <CountDisplay count={count} />
-        <Counter
-          onIncrementClick={() => setCount(count + 1)}
-          onDecrementClick={() => setCount(count - 1)}
-        />
+        <CountProvider>
+          <CountDisplay />
+          <Counter />
+        </CountProvider>
       </header>
     </div>
   );
