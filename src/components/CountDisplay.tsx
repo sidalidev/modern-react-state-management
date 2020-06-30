@@ -1,14 +1,22 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { countState, doubleCountState } from "../contexts/count-context";
 
+const CountDouble = () => {
+  const doubledCount = useRecoilValue(doubleCountState);
+
+  return <>{doubledCount}</>;
+};
+
 const CountDisplay = () => {
   const [count] = useRecoilState(countState);
-  const doubledCount = useRecoilValue(doubleCountState);
 
   return (
     <h3>
-      {count} * 2 = {doubledCount}
+      {count} * 2 ={" "}
+      <Suspense fallback={<>Loading…</>}>
+        <CountDouble />
+      </Suspense>
     </h3>
   );
 };
