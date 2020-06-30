@@ -1,11 +1,16 @@
 import React from "react";
-import { useRecoilState } from "recoil";
-import { countState } from "../contexts/count-context";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { countState, doubleCountState } from "../contexts/count-context";
 
 const CountDisplay = () => {
   const [count] = useRecoilState(countState);
+  const doubledCount = useRecoilValue(doubleCountState);
 
-  return <h3>{count}</h3>;
+  return (
+    <h3>
+      {count} * 2 = {doubledCount}
+    </h3>
+  );
 };
 
 export default CountDisplay;
